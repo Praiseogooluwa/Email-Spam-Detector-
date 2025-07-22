@@ -50,7 +50,7 @@ class SpamResponse(BaseModel):
 model = None
 vectorizer = None
 
-# Spam keywords database
+# [Keep all your existing constants: SPAM_KEYWORDS, BOT_PHRASES, HIGH_RISK_PATTERNS]
 SPAM_KEYWORDS = [
     'win', 'winner', 'won', 'prize', 'lottery', 'congratulations',
     'free', 'click', 'urgent', 'act now', 'limited time', 'offer expires',
@@ -69,7 +69,6 @@ SPAM_KEYWORDS = [
     'call now', 'order now', 'buy now', 'subscribe now', 'register now'
 ]
 
-# Bot-like phrases
 BOT_PHRASES = [
     'dear customer', 'dear valued customer', 'dear sir/madam', 'dear friend',
     'act now', 'limited time', 'offer expires', 'don\'t miss out',
@@ -81,7 +80,6 @@ BOT_PHRASES = [
     'satisfaction guaranteed', 'money back guarantee', 'risk free trial'
 ]
 
-# High-risk domains and patterns
 HIGH_RISK_PATTERNS = [
     '.ru', '.tk', '.ml', '.ga', '.cf', '.biz', '.info',
     'tempmail', 'guerrillamail', '10minutemail', 'mailinator',
@@ -118,29 +116,34 @@ def load_model():
 def create_dummy_model():
     """Create a dummy model for demonstration when model.pkl is not available"""
     global model, vectorizer
-    from sklearn.naive_bayes import MultinomialNB
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    
-    # Create dummy components
-    model = MultinomialNB()
-    vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
-    
-    # Dummy training data for the demo
-    dummy_texts = [
-        "Win a free iPhone now! Click here to claim your prize!",
-        "Meeting scheduled for tomorrow at 3 PM in conference room A",
-        "Congratulations! You've won $1,000,000 in our lottery!",
-        "Please review the attached document and provide feedback",
-        "URGENT: Verify your account immediately or it will be suspended!"
-    ]
-    dummy_labels = [1, 0, 1, 0, 1]  # 1 = spam, 0 = not spam
-    
-    # Fit the vectorizer and model
-    X = vectorizer.fit_transform(dummy_texts)
-    model.fit(X, dummy_labels)
-    
-    logger.info("Dummy model created for demonstration")
+    try:
+        from sklearn.naive_bayes import MultinomialNB
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        
+        # Create dummy components
+        model = MultinomialNB()
+        vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
+        
+        # Dummy training data for the demo
+        dummy_texts = [
+            "Win a free iPhone now! Click here to claim your prize!",
+            "Meeting scheduled for tomorrow at 3 PM in conference room A",
+            "Congratulations! You've won $1,000,000 in our lottery!",
+            "Please review the attached document and provide feedback",
+            "URGENT: Verify your account immediately or it will be suspended!"
+        ]
+        dummy_labels = [1, 0, 1, 0, 1]  # 1 = spam, 0 = not spam
+        
+        # Fit the vectorizer and model
+        X = vectorizer.fit_transform(dummy_texts)
+        model.fit(X, dummy_labels)
+        
+        logger.info("Dummy model created for demonstration")
+    except Exception as e:
+        logger.error(f"Failed to create dummy model: {e}")
+        raise
 
+# [Keep all your existing helper functions: detect_spam_keywords, check_sender_risk, etc.]
 def detect_spam_keywords(text: str) -> List[str]:
     """Detect spam keywords in the email text"""
     text_lower = text.lower()
@@ -239,6 +242,9 @@ def generate_explanation(
 def predict_spam(text: str, sender: str) -> Dict[str, Any]:
     """Main prediction function"""
     try:
+        if not model or not vectorizer:
+            raise HTTPException(status_code=500, detail="Model not loaded")
+            
         # Vectorize the text
         text_vectorized = vectorizer.transform([text])
         
@@ -311,10 +317,23 @@ def extract_email_content(eml_content: bytes) -> Dict[str, str]:
         logger.error(f"Email parsing error: {e}")
         raise HTTPException(status_code=400, detail=f"Failed to parse email file: {str(e)}")
 
+# Fixed startup event (FastAPI 0.104.1 compatible)
 @app.on_event("startup")
 async def startup_event():
     """Load model on startup"""
-    load_model()
+    try:
+        load_model()
+        # Try to create/train model if it doesn't exist
+        if not os.path.exists('model.pkl'):
+            logger.info("No model file found, attempting to create one...")
+            try:
+                from model import create_production_model
+                create_production_model()
+                load_model()  # Reload after creation
+            except Exception as e:
+                logger.warning(f"Could not create production model: {e}")
+    except Exception as e:
+        logger.error(f"Startup error: {e}")
 
 @app.get("/")
 async def root():
@@ -322,6 +341,7 @@ async def root():
     return {
         "message": "AI Spam Email Detector API",
         "version": "1.0.0",
+        "status": "running",
         "endpoints": {
             "/predict": "POST - Analyze email content for spam",
             "/upload_eml": "POST - Upload .eml file for analysis",
