@@ -1,4 +1,3 @@
-
 services:
   - type: web
     name: spam-email-detector
@@ -7,7 +6,11 @@ services:
     plan: free
     runtime: python-3.11.7
     buildCommand: |
-      pip install --only-binary=pandas pandas==2.1.4 && pip install -r requirements.txt
+      pip install --upgrade pip setuptools wheel &&
+      pip install --only-binary=:all: --no-compile -r requirements.txt
     startCommand: uvicorn app:app --host=0.0.0.0 --port=$PORT
     autoDeploy: true
     rootDir: backend
+    envVars:
+      - key: PYTHONPATH
+        value: /opt/render/project/src/backend
