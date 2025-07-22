@@ -7,9 +7,7 @@ services:
     plan: free
     runtime: python-3.11.7
     buildCommand: |
-      pip install --upgrade pip setuptools wheel
-      pip install --only-binary=scikit-learn -r requirements.txt
-      python model.py
+      pip install --only-binary=pandas pandas==2.1.4 && pip install -r requirements.txt
     startCommand: uvicorn app:app --host=0.0.0.0 --port=$PORT
     autoDeploy: true
     rootDir: backend
