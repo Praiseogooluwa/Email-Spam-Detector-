@@ -71,7 +71,7 @@ The backend is a **FastAPI** application powered by a **machine learning model**
 
 ``bash
 # Clone the backend repo
-git clone <your_backend_repo_url>
+git clone <backend_repo_url>
 
 cd backend
 
@@ -90,7 +90,8 @@ python create_model.py
 # Run the server
 uvicorn app:app --reload
 
-🔗 API Endpoints
+---
+### 🔗 API Endpoints
 
 POST /predict
 Predict spam likelihood for raw email text.
@@ -120,8 +121,9 @@ Health check for model and API.
 
 GET /
 Overview of API endpoints and version.
+---
 
-🧠 AI Model Details
+### 🧠 AI Model Details
 
 Algorithm: Multinomial Naive Bayes
 
@@ -148,8 +150,9 @@ res = requests.post("http://localhost:8000/predict", json={
     "sender": "colleague@company.com"
 })
 print(res.json())
+---
 
-🎨 Frontend Setup (React + Vite)
+### 🎨 Frontend Setup (React + Vite)
 
 # Clone the frontend repo
 git clone <your_frontend_repo_url>
@@ -160,42 +163,54 @@ npm install
 
 # Run development server
 npm run dev
-🔧 Customization
+---
+
+### 🔧 Customization
 ✏️ Add Custom Spam Keywords
 Edit the SPAM_KEYWORDS list in app.py:
 
 SPAM_KEYWORDS = [
-    'click here',
+    'click here',  
     'win money',
     'urgent',
     'verify account',
     # your custom additions here
 ]
-
-🔐 Add New Risky Domains
+---
+### 🔐 Add New Risky Domains
 Update the HIGH_RISK_PATTERNS list:
 
 HIGH_RISK_PATTERNS = [
     '.tk', '.ru', '.ml', 'tempmail',
     # add more here
 ]
-
-📁 Project Structure
+---
+### 📁 Project Structure
 project-root/
 ├── backend/
-│   ├── app.py
-│   ├── model.py
-│   ├── model.pkl
-│   ├── requirements.txt
-│   └── README.md
-├── frontend/
-│   ├── index.html
-│   ├── style.css
-│   ├── script.js (or React app files)
-│   └── README.md
-└── README.md (this file)
 
-🚀 Deployment
+│   ├── app.py
+
+│   ├── model.py
+
+│   ├── model.pkl
+
+│   ├── requirements.txt#
+│   └── README.md
+
+├── frontend/
+
+│   ├── index.html
+
+│   ├── style.css
+
+│   ├── script.js (or React app files)
+
+│   └── README.md
+
+└── README.md (this file)
+---
+### 🚀 Deployment
 
 Backend (Render)
 
@@ -211,12 +226,12 @@ Push the frontend/ directory to GitHub
 Connect repo on Vercel
 
 Set root to frontend if deploying from monorepo
-
-📄 License
+---
+### 📄 License
 
 This project is provided for educational, demonstration, and practical use. Feel free to fork, modify, or build upon it.
-
-🙋‍♂️ About Me
+---
+### 🙋‍♂️ About Me
 
 I’m Praise Ogooluwa Bakare, a data scientist and backend developer with a growing passion for building intelligent applications and scalable backend systems.
 
