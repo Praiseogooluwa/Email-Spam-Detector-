@@ -1,10 +1,15 @@
+
 services:
   - type: web
     name: spam-email-detector
     env: python
     region: oregon  
     plan: free
-    buildCommand: pip install -r requirements.txt
+    runtime: python-3.11.7
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel
+      pip install --only-binary=scikit-learn -r requirements.txt
+      python model.py
     startCommand: uvicorn app:app --host=0.0.0.0 --port=$PORT
     autoDeploy: true
-    rootDir: backend  
+    rootDir: backend
