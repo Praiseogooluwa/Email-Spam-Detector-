@@ -3,7 +3,7 @@ services:
   - type: web
     name: Spam-Detector
     env: python
-    pythonVersion: "3.12.0" 
+    pythonVersion: "3.11.9" 
     autoDeploy: false 
     autoBuild: false 
     pullRequestPreviews: false 
