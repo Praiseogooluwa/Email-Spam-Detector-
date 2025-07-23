@@ -1,18 +1,10 @@
-# Core FastAPI dependencies
 fastapi==0.104.1
 uvicorn==0.24.0
-
-# Updated Pydantic to newer version that has precompiled wheels
 pydantic==2.8.2
-
 python-multipart==0.0.6
-
-# ML dependencies - use versions with precompiled wheels
 scikit-learn==1.5.1
 pandas==2.2.2
 numpy==1.26.4
 joblib==1.4.2
-
-# Other dependencies
 langdetect==1.0.9
 requests==2.32.3
