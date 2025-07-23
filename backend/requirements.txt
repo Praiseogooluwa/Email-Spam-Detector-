@@ -1,5 +1,5 @@
 fastapi==0.104.1
 uvicorn==0.24.0
-scikit-learn==1.5.1  # Only needed for model inference
-numpy==1.26.4        # Required by scikit-learn
-langdetect==1.0.9    # For language detection
+scikit-learn==1.5.1
+numpy==1.23.5  # Lighter version that still works with scikit-learn
+langdetect==1.0.9
