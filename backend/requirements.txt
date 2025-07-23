@@ -1,22 +1,17 @@
-# Build essentials (must be first)
-setuptools==69.5.1
-wheel==0.43.0
-pip==24.0
-
-# Core FastAPI dependencies
+# Core dependencies
 fastapi==0.104.1
-uvicorn[standard]==0.24.0
-pydantic>=2.0.0
+uvicorn==0.24.0
+pydantic==2.8.2
 
-# File handling
-python-multipart==0.0.6
-
-# ML dependencies (free tier friendly versions)
+# Lightweight ML stack
 scikit-learn==1.3.2
 numpy==1.24.4
+joblib==1.3.2
 
-# Language detection
+# Essential utilities
 langdetect==1.0.9
+python-multipart==0.0.6
 
-# Email parsing (built-in, no extra install needed)
-# email module is part of Python standard library
+# Build system (critical for Render)
+setuptools==69.5.1
+wheel==0.43.0
