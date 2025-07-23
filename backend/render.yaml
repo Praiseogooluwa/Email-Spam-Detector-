@@ -1,19 +1,9 @@
 services:
   - type: web
-    name: spam-email-detector
+    name: spam-detector
     env: python
-    region: frankfurt  # More reliable than oregon
-    plan: free
-    runtime: python-3.12.10  # Match your local Python version
-    buildCommand: |
-      python -m pip install --upgrade pip setuptools wheel &&
-      pip install --no-cache-dir --retries 5 --timeout 120 --prefer-binary Cython &&
-      pip install --no-cache-dir --retries 5 --timeout 120 --prefer-binary -r requirements.txt
-    startCommand: uvicorn app:app --host=0.0.0.0 --port=$PORT --workers=1
-    autoDeploy: true
-    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: PYTHONUNBUFFERED
-        value: "1"
-      - key: PIP_NO_BINARY
-        value: ":none:"
+      - key: PYTHON_VERSION
+        value: 3.9.7
