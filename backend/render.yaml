@@ -2,8 +2,9 @@ services:
   - type: web
     name: spam-detector
     env: python
-    pythonVersion: "3.9.7"
+    pythonVersion: "3.9" # More general version
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
-    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    # Corrected start command to reflect the file path /backend/app.py
+    startCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
