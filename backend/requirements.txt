@@ -1,13 +1,20 @@
 # Core dependencies
-fastapi==0.109.2
-uvicorn==0.27.1
-
-# Lightweight ML stack
-scikit-learn==1.5.1  # Compatible with FastAPI and Uvicorn
-numpy==1.24.3        # Updated for compatibility with scikit-learn
+fastapi==0.104.1
+uvicorn==0.24.0
 
 # Essential utilities
-langdetect==1.0.9    # Compatible with FastAPI
+pydantic==2.5.0
+python-multipart==0.0.6
+
+# Lightweight ML stack
+scikit-learn==1.3.2
+langdetect==1.0.9
+numpy==1.24.3
+pandas==2.0.3
+joblib==1.3.2
+
+# Additional utilities
+requests  # No version specified, will install the latest
 
 # Build system (critical for Render)
 setuptools==69.5.1   # Critical addition
