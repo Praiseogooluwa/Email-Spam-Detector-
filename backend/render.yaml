@@ -4,9 +4,10 @@ services:
     env: python
     plan: free
     runtime: python-3.11.7
+    region: frankfurt
     buildCommand: |
-      pip install --upgrade pip &&
-      pip install --no-cache-dir --retries 5 --timeout 60 --prefer-binary -r requirements.txt
+      pip install --no-deps numpy==1.23.5 scikit-learn==1.5.1 &&  # Install heaviest first
+      pip install -r requirements.txt
     startCommand: uvicorn app:app --host=0.0.0.0 --port=$PORT
     autoDeploy: true
     rootDir: backend
