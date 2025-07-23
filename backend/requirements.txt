@@ -1,16 +1,14 @@
-# Core dependencies (keep as-is)
+# Core dependencies
 fastapi==0.109.2
 uvicorn==0.27.1
 
-# Lightweight ML stack (updated for compatibility)
-scikit-learn==1.3.2  # Downgraded for better stability
-numpy==1.24.4        # Matches scikit-learn 1.3.2 requirements
-joblib==1.3.1        # Required by scikit-learn
+# Lightweight ML stack
+scikit-learn==1.5.1  # Compatible with FastAPI and Uvicorn
+numpy==1.24.3        # Updated for compatibility with scikit-learn
 
 # Essential utilities
-langdetect==1.0.9
-python-multipart==0.0.6  # Required by FastAPI for file uploads
+langdetect==1.0.9    # Compatible with FastAPI
 
-# Build system (minimal set)
-setuptools==68.2.2  # Slightly older but more stable
-wheel==0.42.0       # Compatible with setuptools
+# Build system (critical for Render)
+setuptools==69.5.1   # Critical addition
+Cython==0.29.32      # Added for compatibility with scikit-learn
