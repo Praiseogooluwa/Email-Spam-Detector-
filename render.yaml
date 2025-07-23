@@ -7,5 +7,4 @@ services:
     startCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12.0 
- 
+        value: 3.12.0
