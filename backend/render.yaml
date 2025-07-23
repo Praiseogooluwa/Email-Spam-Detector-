@@ -3,11 +3,10 @@ services:
     name: spam-email-detector
     env: python
     plan: free
-    runtime: python-3.11.7
-    region: frankfurt
+    runtime: python-3.11.7  # Changed from 3.13 for better compatibility
     buildCommand: |
-      pip install --no-deps numpy==1.23.5 scikit-learn==1.5.1 &&  # Install heaviest first
-      pip install -r requirements.txt
+      pip install --upgrade pip setuptools wheel &&
+      pip install --no-cache-dir --retries 5 -r requirements.txt
     startCommand: uvicorn app:app --host=0.0.0.0 --port=$PORT
     autoDeploy: true
     rootDir: backend
