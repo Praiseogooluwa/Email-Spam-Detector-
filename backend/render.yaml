@@ -2,15 +2,11 @@ services:
   - type: web
     name: spam-email-detector
     env: python
-    region: oregon  
     plan: free
     runtime: python-3.11.7
     buildCommand: |
       pip install --upgrade pip &&
-      pip install --no-cache-dir --retries 5 -r requirements.txt
+      pip install --no-cache-dir --retries 5 --timeout 60 --prefer-binary -r requirements.txt
     startCommand: uvicorn app:app --host=0.0.0.0 --port=$PORT
     autoDeploy: true
     rootDir: backend
-    envVars:
-      - key: PYTHONPATH
-        value: /opt/render/project/src/backend
